@@ -79,10 +79,10 @@ missing <- !complete.cases(data)
 totalmissing <- sum(missing)
 ```
 There are 2304 rows with missing data.
+The missing values will be replaced by the average-by-interval values obtained when calculating the average daily activity pattern. The new values will be stored in a dataframe called ```newvalues```. The dataset without missing values will be called ```newdata```.
 
 
 ```r
-## The missing values will be replaced by the average-by-interval values obtained in {r dailypattern}.
 newdata <- data
 newvalues <- data.frame(average = averagebyinterval, name = names(averagebyinterval), row.names = NULL)
 names(newvalues)
@@ -93,6 +93,7 @@ names(newvalues)
 ```
 
 ```r
+##This is the block of code that replace missing values by the average-by-interval values.
 for (i in 1:sum(missing)){
 	if(newdata[missing, "interval"][i] %in% newvalues$name){
 		newdata[missing, "steps"][i] <-
@@ -125,7 +126,7 @@ median(totalstepsbyday)
 ```
 ## [1] 10766.19
 ```
-When replacing missing values by an arbitrary average the mean and the median become equal, which means the distribution becomes symmetric.
+When replacing missing values by the average-by-interval values the mean and the median become equal, which means the distribution becomes symmetric.
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
@@ -147,4 +148,4 @@ plot(weekendpattern, type = "l", main="Steps by interval on weekends", xlab= "5-
 
 ![plot of chunk weekdayactivitypatterns](figure/weekdayactivitypatterns-1.png) 
 
-The weekday pattern looks very much like the average pattern, i.e. more steps in the morning, while the weekend pattern shows the steps more distributed along the day.
+There is a difference in the activity pattern between weekdays and weekends. The weekday pattern looks very much like the average pattern, i.e. more steps in the morning, while the weekend pattern shows the steps more distributed along the day.
